@@ -11,18 +11,25 @@ datasource db {
 }
 
 model Criminoso {
-  id    Int     @id @default(autoincrement())
-  nome  String
+  id Int     @id @default(autoincrement())
+  nome  String  @db.VarChar(100)
+
+  crimes Crime[]
 }
 
 model Crime {
-  id    Int     @id @default(autoincrement())
-  descricao  String
+  id Int @id @default(autoincrement())
+  descricao String @db.Text()
   idCriminoso Int @map("id_criminoso")
+
+  criminoso Criminoso @relation(fields: [idCriminoso], references: [id])
+  armas Arma[]
 }
 
 model Arma {
-  id    Int     @id @default(autoincrement())
-  descricao  String
+  id Int @id @default(autoincrement())
+  descricao String @db.Text()
   idCrime Int @map("id_crime")
+
+  crime Crime @relation(fields: [idCrime], references: [id])
 }
